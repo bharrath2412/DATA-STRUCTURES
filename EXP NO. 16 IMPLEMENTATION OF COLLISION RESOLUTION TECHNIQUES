@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 10
+
+typedef struct HashEntry {
+    int key;
+    int value;
+    struct HashEntry* next; // Pointer to the next entry for chaining
+} HashEntry;
+
+typedef struct {
+    HashEntry **entries;
+    int size;
+} HashTable;
+
+int hash(int key, int size) {
+    return key % size;
+}
+
+void initHashTable(HashTable *hashTable) {
+    hashTable->entries = (HashEntry**)malloc(SIZE * sizeof(HashEntry*));
+    hashTable->size = SIZE;
+    for (int i = 0; i < SIZE; i++) {
+        hashTable->entries[i] = NULL;
+    }
+}
+
+// Dummy function to replace insertOpenAddressing
+void insertOpenAddressing(HashTable *hashTable, int key, int value) {
+    // Function intentionally left empty
+}
+
+// Dummy function to replace insertClosedAddressing
+void insertClosedAddressing(HashTable *hashTable, int key, int value) {
+    // Function intentionally left empty
+}
+
+// Dummy function to replace insertWithRehashing
+void insertWithRehashing(HashTable *hashTable, int key, int value) {
+    // Function intentionally left empty
+}
+
+void printHashTable(HashTable *hashTable) {
+    printf("Hash Table:\n");
+    for (int i = 0; i < hashTable->size; i++) {
+        HashEntry *current = hashTable->entries[i];
+        printf("Index %d: ", i);
+        while (current != NULL) {
+            printf("Key: %d, Value: %d -> ", current->key, current->value);
+            current = current->next;
+        }
+        printf("NULL\n");
+    }
+}
+
+int main() {
+    // Open Addressing
+    printf("Open Addressing:\n");
+    HashTable openAddressingTable;
+    initHashTable(&openAddressingTable);
+    insertOpenAddressing(&openAddressingTable, 5, 10);
+    insertOpenAddressing(&openAddressingTable, 15, 20);
+    insertOpenAddressing(&openAddressingTable, 25, 30);
+    printHashTable(&openAddressingTable);
+
+    // Closed Addressing
+    printf("\nClosed Addressing:\n");
+    HashTable closedAddressingTable;
+    initHashTable(&closedAddressingTable);
+    insertClosedAddressing(&closedAddressingTable, 5, 10);
+    insertClosedAddressing(&closedAddressingTable, 15, 20);
+    insertClosedAddressing(&closedAddressingTable, 25, 30);
+    printHashTable(&closedAddressingTable);
+
+    // Rehashing
+    printf("\nRehashing:\n");
+    HashTable rehashingTable;
+    initHashTable(&rehashingTable);
+    insertWithRehashing(&rehashingTable, 5, 10);
+    insertWithRehashing(&rehashingTable, 15, 20);
+    insertWithRehashing(&rehashingTable, 25, 30);
+    printHashTable(&rehashingTable);
+
+    return 0;
+}
